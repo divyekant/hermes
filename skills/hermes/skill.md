@@ -57,7 +57,33 @@ Templates are stored in separate files by audience. **Read only the template fil
 | External | `templates/external.md` | Changelog, API Reference, Feature Docs, Getting Started, Config Reference, Error Reference, Migration Guide |
 | Marketing | `templates/marketing.md` | Feature Brief, Product Datasheet, Release Announcement, Sales One-Pager |
 
-**Loading rules:**
+### Template Resolution
+
+Templates support per-project overrides. Resolution order (first match wins):
+
+1. **Project override:** `.hermes/templates/{audience}.md` in the project root
+2. **Bundled default:** `templates/{audience}.md` in the skill directory
+
+**How to check:**
+- Before loading a template, glob for `.hermes/templates/{audience}.md` in the project root
+- If found: use the project override and announce "Using custom {audience} template"
+- If not found: use the bundled template from the skill directory
+
+**Override rules:**
+- Overrides replace the ENTIRE audience template, not individual doc types within it
+- Overrides must follow the same structure as bundled templates (same section headers, same frontmatter fields)
+- To customize a single doc type, copy the full bundled template and modify the relevant section
+
+**Setup for a project:**
+```bash
+mkdir -p .hermes/templates
+# Copy a bundled template to customize it:
+cp ~/.claude/skills/hermes/templates/internal.md .hermes/templates/internal.md
+# Edit to taste, then Hermes will use it automatically
+```
+
+### Loading Rules
+
 - **Generate (all):** Read all 3 template files, one at a time as you reach each audience
 - **Internal/External/Marketing mode:** Read only that audience's template file
 - **Update mode:** Read template files for audiences with changed features
@@ -179,7 +205,10 @@ After user confirms, write `docs/generated/.hermes.md`:
 
 ### Step 3: Generate Documentation
 
-**Read the relevant template file(s) now.** Use the Read tool to load `templates/internal.md`, `templates/external.md`, and/or `templates/marketing.md` based on the current mode.
+**Resolve and read template file(s) now.** For each audience needed:
+1. Glob for `.hermes/templates/{audience}.md` in the project root
+2. If found: read it (announce "Using custom {audience} template")
+3. If not found: read `templates/{audience}.md` from the skill directory
 
 **Chunking: one audience at a time. Features within each audience can be parallel.**
 
