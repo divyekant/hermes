@@ -54,8 +54,8 @@ Templates are stored in separate files by audience. **Read only the template fil
 | Audience | Template File | Doc Types |
 |----------|--------------|-----------|
 | Internal | `templates/internal.md` | Feature Handoff, Release Notes, Use Case Docs, FAQ, Troubleshooting Guide, Glossary |
-| External | `templates/external.md` | Changelog, API Reference, Feature Docs, Getting Started, Config Reference, Error Reference, Migration Guide |
-| Marketing | `templates/marketing.md` | Feature Brief, Product Datasheet, Release Announcement, Sales One-Pager |
+| External | `templates/external.md` | Changelog, API Reference, Feature Docs, Getting Started, Config Reference, Error Reference, Migration Guide, Tutorial, Cookbook |
+| Marketing | `templates/marketing.md` | Feature Brief, Product Datasheet, Release Announcement, Sales One-Pager, Blog Post, Social Posts, Email Announcement, Landing Page Copy |
 
 ### Template Resolution
 
@@ -230,6 +230,11 @@ mkdir -p docs/generated/external/migration
 mkdir -p docs/generated/marketing/feature-briefs
 mkdir -p docs/generated/marketing/release-announcements
 mkdir -p docs/generated/marketing/one-pagers
+mkdir -p docs/generated/marketing/blog-posts
+mkdir -p docs/generated/marketing/social
+mkdir -p docs/generated/marketing/emails
+mkdir -p docs/generated/marketing/landing-pages
+mkdir -p docs/generated/external/tutorials
 ```
 
 **3b. Generate docs for each confirmed feature:**
@@ -243,10 +248,15 @@ For each feature in the feature map, generate the per-feature doc types using th
 
 **External per-feature docs:**
 - Feature Docs → `docs/generated/external/features/feat-{NNN}-{slug}.md`
+- Tutorial (one per distinct user scenario) → `docs/generated/external/tutorials/tut-{NNN}-{slug}.md`
 
 **Marketing per-feature docs:**
 - Feature Brief → `docs/generated/marketing/feature-briefs/fb-{NNN}-{slug}.md`
 - Sales One-Pager → `docs/generated/marketing/one-pagers/op-{NNN}-{slug}.md`
+- Blog Post → `docs/generated/marketing/blog-posts/bp-{NNN}-{slug}.md`
+- Social Posts → `docs/generated/marketing/social/sp-{NNN}-{slug}.md`
+- Email Announcement → `docs/generated/marketing/emails/em-{NNN}-{slug}.md`
+- Landing Page Copy → `docs/generated/marketing/landing-pages/lp-{NNN}-{slug}.md`
 
 **3c. Generate cross-feature docs (not per-feature, but per-project):**
 
@@ -261,6 +271,7 @@ For each feature in the feature map, generate the per-feature doc types using th
 | Config Reference | External | `external/config-reference.md` |
 | Error Reference | External | `external/error-reference.md` |
 | Migration Guide | External | `external/migration/v{from}-to-v{to}.md` |
+| Cookbook | External | `external/cookbook.md` |
 | Product Datasheet | Marketing | `marketing/datasheet.md` |
 | Release Announcement | Marketing | `marketing/release-announcements/ra-v{version}.md` |
 
@@ -292,17 +303,23 @@ Generated: {timestamp} | Source: {tier} | Hermes v1.0.0
 |----|------|-------|-----------|
 | getting-started | Getting Started | All | {date} |
 | feat-001 | Feature Doc | {topic} | {date} |
+| tut-001 | Tutorial | {topic} | {date} |
 | api-ref | API Reference | All | {date} |
 | config-ref | Config Reference | All | {date} |
 | error-ref | Error Reference | All | {date} |
 | changelog | Changelog | All | {date} |
 | migration | Migration Guide | v{X}→v{Y} | {date} |
+| cookbook | Cookbook | All | {date} |
 
 ## Marketing ({count} docs)
 | ID | Type | Topic | Generated |
 |----|------|-------|-----------|
 | fb-001 | Feature Brief | {topic} | {date} |
 | op-001 | One-Pager | {topic} | {date} |
+| bp-001 | Blog Post | {topic} | {date} |
+| sp-001 | Social Posts | {topic} | {date} |
+| em-001 | Email Announcement | {topic} | {date} |
+| lp-001 | Landing Page | {topic} | {date} |
 | ds-001 | Datasheet | Full Product | {date} |
 | ra-v{ver} | Release Announcement | v{ver} | {date} |
 ```
@@ -545,10 +562,16 @@ Before finalizing any document, verify:
 13. **Config Reference has defaults** — every option shows its default value
 14. **Error Reference has resolutions** — every error has actionable fix steps
 15. **Migration Guide has before/after** — every breaking change shows old and new code
+16. **Tutorials have verification steps** — every tutorial ends with "verify it works" with expected output
+17. **Cookbook recipes are copy-pasteable** — no gaps, no `...`, complete working code
 
 **Marketing docs:**
-16. **Feature Briefs have Suggested Messaging** — never empty, minimum 2 messages
-17. **Datasheet specs are factual** — only include what's verifiable from code/config, not aspirational
-18. **One-Pagers are under 400 words** — must fit on one printed page
-19. **Release Announcements lead with value** — headline is benefit-focused, not feature-named
-20. **No technical jargon in marketing docs** — a VP should understand every word
+18. **Feature Briefs have Suggested Messaging** — never empty, minimum 2 messages
+19. **Datasheet specs are factual** — only include what's verifiable from code/config, not aspirational
+20. **One-Pagers are under 400 words** — must fit on one printed page
+21. **Release Announcements lead with value** — headline is benefit-focused, not feature-named
+22. **No technical jargon in marketing docs** — a VP should understand every word
+23. **Blog Posts open with pain, not product** — first paragraph names the problem, not the solution
+24. **Social Posts are platform-appropriate** — Twitter under 280 chars, LinkedIn has hashtags
+25. **Email subject lines under 60 chars** — test with "would I open this?"
+26. **Landing Page has exactly one primary CTA** — don't split attention

@@ -402,3 +402,163 @@ hermes-version: 1.0.0
 3. Every breaking change needs before/after examples
 4. Include a migration checklist at the end
 5. Only generated when a version change introduces breaking changes
+
+---
+
+## Tutorial
+
+**File:** `docs/generated/external/tutorials/tut-{NNN}-{slug}.md`
+
+End-to-end guided walkthrough of a specific use case. Different from feature docs (which describe capabilities) — tutorials walk the reader through a complete scenario with a concrete outcome.
+
+~~~markdown
+---
+id: tut-{NNN}
+type: tutorial
+audience: external
+topic: {scenario-name}
+status: draft
+generated: {date}
+source-tier: {tier}
+hermes-version: 1.0.0
+---
+
+# Tutorial: {Scenario Title}
+
+## What You'll Build
+{1-2 sentences describing the concrete outcome. The reader should know exactly what they'll have at the end:
+"By the end of this tutorial, you'll have a working authentication flow with JWT tokens and role-based access control."}
+
+## Prerequisites
+{What the reader needs before starting:
+- {tool or dependency} (version {X}+)
+- {prior knowledge or completed tutorial}
+- Estimated time: {X} minutes}
+
+## Steps
+
+### 1. {First step title}
+
+{Context — why this step matters (1 sentence)}
+
+```{lang}
+{exact command or code}
+```
+
+{Explanation of what happened (1-2 sentences). What to expect:}
+
+```
+{expected output}
+```
+
+### 2. {Next step title}
+
+{Context}
+
+```{lang}
+{code}
+```
+
+{Explanation}
+
+### 3. {Next step title}
+
+{Continue the pattern — each step builds on the previous one}
+
+## Verify It Works
+
+{How to confirm the tutorial outcome was achieved:}
+
+```{lang}
+{verification command or test}
+```
+
+{Expected result:}
+
+```
+{what success looks like}
+```
+
+## What's Next
+{2-3 natural follow-up paths:
+- [Related tutorial](tut-XXX.md) — {for a more advanced scenario}
+- [Feature doc](features/feat-XXX.md) — {to understand the full capability}
+- [API Reference](api-reference.md) — {for programmatic access}}
+
+## Troubleshooting
+{2-3 most common issues people hit during this tutorial:
+- **{symptom}:** {cause and fix}
+- **{symptom}:** {cause and fix}}
+~~~
+
+**Generation rules for tutorials:**
+1. One tutorial per distinct user scenario — not per feature, per use case
+2. Every step must have: context (why), action (what to do), verification (what to expect)
+3. Code must be copy-pasteable — no `...` or `<replace this>` without clear instruction
+4. Include expected output for every command — the reader should never wonder "did that work?"
+5. Start from a clean state. Never assume the reader has done other tutorials first (unless listed in prerequisites)
+6. Keep to 5-10 steps. If it takes more, split into multiple tutorials.
+7. Derive scenarios from use case docs (internal) — translate the system-perspective flow into a user-perspective walkthrough
+
+---
+
+## Cookbook / Recipes
+
+**File:** `docs/generated/external/cookbook.md`
+
+Collection of copy-paste-ready code snippets and patterns for common tasks. Not a tutorial (no narrative) — just problem → solution pairs.
+
+~~~markdown
+---
+type: cookbook
+audience: external
+status: draft
+generated: {date}
+source-tier: {tier}
+hermes-version: 1.0.0
+---
+
+# Cookbook
+
+Quick recipes for common tasks. Each recipe is self-contained — copy, paste, adapt.
+
+## {Category}
+
+### {Recipe Title}
+
+**Goal:** {What you want to accomplish — 1 sentence}
+
+```{lang}
+{Complete, working code snippet}
+```
+
+**Notes:**
+- {Any caveats, prerequisites, or variations}
+- {Where to find more detail: link to feature doc or API reference}
+
+---
+
+{Repeat for each recipe in this category}
+
+## {Next Category}
+
+### {Recipe Title}
+
+**Goal:** {1 sentence}
+
+```{lang}
+{code}
+```
+
+**Notes:**
+- {caveats}
+~~~
+
+**Generation rules for cookbook:**
+1. Extract patterns from source code, examples in docs, test files, and common API usage
+2. Every recipe must be copy-pasteable — complete, working code with no gaps
+3. Group by category (not alphabetically) — categories should map to user goals
+4. Each recipe is self-contained — no "see recipe above" references
+5. Include "Notes" for caveats, edge cases, and links to full docs
+6. Aim for 10-20 recipes on first generation — prioritize the most common tasks
+7. If the project has a CLI: include CLI recipes. If it has an API: include curl recipes. If it has an SDK: include SDK recipes.
